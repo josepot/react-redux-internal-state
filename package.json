@@ -1,0 +1,33 @@
+{
+  "name": "react-redux-internal-state",
+  "version": "1.0.1",
+  "description": "React plugin for redux-internal-state",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josepot/react-redux-internal-state.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "interal",
+    "state"
+  ],
+  "author": "Josep M Sobrepere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/josepot/react-redux-internal-state/issues"
+  },
+  "homepage": "https://github.com/josepot/react-redux-internal-state#readme",
+  "dependencies": {
+    "ramda": "^0.22.1",
+    "react": "^15.3.0",
+    "react-redux": "^4.4.5",
+    "recompose": "^0.20.2",
+    "redux": "^3.5.2",
+    "redux-internal-state": "^1.0.1"
+  }
+}
