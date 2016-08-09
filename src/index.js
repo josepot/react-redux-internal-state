@@ -10,13 +10,11 @@ const contextProps = {
   parentInstanceIds: PropTypes.shape({
     componentId: PropTypes.string,
     instanceId: PropTypes.string,
-  })
+  }),
 };
 
-const type = val =>
-  val === null      ? 'Null'      :
-  val === undefined ? 'Undefined' :
-  Object.prototype.toString.call(val).slice(8, -1);
+const isFunction = val => val !== null && val !== undefined &&
+  Object.prototype.toString.call(val).slice(8, -1) === 'Function';
 
 function mapConnectArgs(args, componentId) {
   return args.map(
@@ -29,7 +27,7 @@ function mapConnectArgs(args, componentId) {
           );
         case 1:
           return (dispatch, props) =>
-            type(args[1]) === 'Function' ? arg(
+            isFunction(args[1]) ? arg(
               helpers.getScopedDispatch(
                 dispatch, componentId, props.instanceId
               ),
@@ -39,12 +37,12 @@ function mapConnectArgs(args, componentId) {
             );
         default:
           return arg;
-      };
+      }
     }
   );
 }
 
-export default (...args) => (component, id, reducer) => {
+export default (...args) => (component, id, reducer, initialValueFn) => {
   registerComponent(id, reducer);
 
   return compose(
@@ -56,8 +54,10 @@ export default (...args) => (component, id, reducer) => {
     lifecycle({
       componentWillMount() {
         registerInstance(id, this.props.instanceId);
+        const initialValue = isFunction(initialValueFn) ?
+          initialValueFn(this.props) : undefined;
         this.props.onRegister(
-          id, this.props.instanceId, this.props.parentInstanceIds
+          id, this.props.instanceId, initialValue,  this.props.parentInstanceIds
         );
       },
       componentWillUnmount() {
