@@ -1,0 +1,57 @@
+ul, li {
+  list-style-type: none;
+  margin: auto;
+  padding: 0;
+}
+.carousel {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.circle {
+  border-radius: 50%;
+  background-color: blue;
+}
+
+.circle.selected {
+  background-color: orange;
+}
+
+.carousel .slidesArea {
+  overflow: hidden;
+}
+.carousel .slidesArea > * {
+  float: left;
+}
+
+.carousel .slidesArea .slidesViewPort {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel .slidesArea .slidesViewPort ul, .carousel .slidesArea .viewPort ul li {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel .slidesArea .slidesViewPort ul {
+  position: relative;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+}
+
+.carousel .slidesArea .slidesViewPort ul li {
+  position: absolute;
+}
+
+.carousel .slidesArea .slidesViewPort ul li img {
+  width: 100%;
+}
+
+.slideButtons li {
+  float: left;
+  cursor: pointer;
+}

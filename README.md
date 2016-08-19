@@ -36,7 +36,10 @@ easier to test and easier to reason about.
 2) Because it will make debugging a lot easier: You will be able to time
 travel through the different events that affected the state of your component.
 
-3) Because if all the state of your application lives in the redux-store you
+3) Because you will be able to make small unit tests on all the different parts
+of your components.
+
+4) Because if all the state of your application lives in the redux-store you
 will be able to reproduce any given state of your application by reproducing
 the actions. As soon as you have a component that behaves independently from
 the state of the redux-store, the state of your app will stop being
@@ -109,11 +112,51 @@ const tabs = ({ selectedTab, onTabSelect, ...otherProps }) => (
   // Your code here
 );
 
+// This connect function works like the react-redux connect function with the
+// only differences being that:
+// in the 'stateToProps' function the state parameter will have 2 entries:
+// `instance`: with the state of your component
+// `children`: with the "internal state" of any other children that it's
+// rendered inside this component that are also using this library. Most of the
+// times you won't need this.
 export default connect(
   state => ({ selectedTab: state.instance }),
   actionCreators
-)(tabs, 'tabs', reducer);
+)(
+  // The "dumb" component
+  tabs,
+
+  // The name of the entry that will be generated under the
+  // "componentsTransientData" entry of your store. The state of the different
+  // Instances of 'tabs' will be placed there.
+  'stateOfMyTabs',
+
+  // The reducer that defines the transient/internal state of this component
+  reducer,
+
+  // A optinal function to initialize the state of the component when it gets
+  // rendered. If this parater is not used, the state of the component will
+  // be the default state of the reducer.
+  (externalProps => externalProps.initialState)
+);
 ```
+
+And finally, when you instantiate your `Tabs` you have to pass an `instanceId`
+property to them, like this:
+
+```
+<Tabs instanceId="myTabs">
+// ... The rest of the code here
+</Tabs>
+```
+
+## Examples
+
+So far there is just one example, but it covers all the different possibilities
+of this library:
+
+- [Carousel](https://github.com/josepot/react-redux-internal-state/tree/master/examples/carousel/)
+
 
 ## Installation
 
