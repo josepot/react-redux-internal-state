@@ -9,12 +9,12 @@ app.
 
 When developing redux-apps: is it a good idea to keep all the state of your app
 in the redux store? Should we also keep in our redux store the transient data
-of our app and the "internal state" of your ui components? Do we want our UI
+of our app and the “internal state” of your UI components? Do we want our UI
 components to be able to manage their own state?
 
-Let's imagine that we have a carousel component that receives the following
-props from a container: `width` and `slides`. Shoudln't the carousel itself be
-the one responsible for managing its internal state? (the slide that it's
+Let’s imagine that we have a carousel component that receives the following
+props from a container: `width` and `slides`. Shouldn’t the carousel itself be
+the one responsible for managing its internal state? (the slide that it’s
 currently visible, the transitions, etc?) Should we manage that state with
 redux? Do we want to have that transient state it in the redux store? Could
 there be a way to have both things at once: the carousel managing its internal
@@ -28,8 +28,8 @@ without the component being aware of that.
 
 For a few different reasons:
 
-1) Being able to manage the "internal state" of your compoenents using actions,
-reducers and selectors implies that you won't need to make any mutations, all
+1) Being able to manage the “internal state” of your components using actions,
+reducers and selectors implies that you won’t need to make any mutations, all
 the state management flow will be functional. Which will make your component
 easier to test and easier to reason about.
 
@@ -53,7 +53,7 @@ First lets install `redux-internal-state` and `react-redux-internal-state`:
 npm install --save redux-internal-state react-redux-internal-state
 ```
 
-Now let's add an entry in the main reducer of the app. Is in this entry where
+Now let’s add an entry in the main reducer of the app. Is in this entry where
 the transient-state data  will be stored, for example:
 
 ```
@@ -70,7 +70,7 @@ export default combineReducers({
 });
 ```
 
-Now let's say that you want to create a component that manages its "internal state".
+Now let’s say that you want to create a component that manages its “internal state”.
 First define the actions that will trigger state changes:
 
 ```
@@ -83,7 +83,7 @@ export actionCreators = {
 };
 ```
 
-Now let's make a simple reducer for the "internal state" of our component:
+Now let’s make a simple reducer for the “internal state” of our component:
 ```
 // This file would be located somewhere like: src/components/tabs-component/reducer.js
 
@@ -114,28 +114,28 @@ const tabs = ({ selectedTab, onTabSelect, ...otherProps }) => (
 
 // This connect function works like the react-redux connect function with the
 // only differences being that:
-// in the 'stateToProps' function the state parameter will have 2 entries:
+// in the ‘stateToProps’ function the state parameter will have 2 entries:
 // `instance`: with the state of your component
-// `children`: with the "internal state" of any other children that it's
+// `children`: with the “internal state” of any other children that it’s
 // rendered inside this component that are also using this library. Most of the
-// times you won't need this.
+// times you won’t need this.
 export default connect(
   state => ({ selectedTab: state.instance }),
   actionCreators
 )(
-  // The "dumb" component
+  // The “dumb” component
   tabs,
 
   // The name of the entry that will be generated under the
-  // "componentsTransientData" entry of your store. The state of the different
-  // Instances of 'tabs' will be placed there.
+  // “componentsTransientData” entry of your store. The state of the different
+  // Instances of ‘tabs’ will be placed there.
   'stateOfMyTabs',
 
   // The reducer that defines the transient/internal state of this component
   reducer,
 
-  // A optinal function to initialize the state of the component when it gets
-  // rendered. If this parater is not used, the state of the component will
+  // A optional function to initialize the state of the component when it gets
+  // rendered. If this parameter is not used, the state of the component will
   // be the default state of the reducer.
   (externalProps => externalProps.initialState)
 );
