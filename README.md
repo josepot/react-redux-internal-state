@@ -56,7 +56,7 @@ npm install --save redux-internal-state react-redux-internal-state
 Now let's add an entry in the main reducer of the app. Is in this entry where
 the transient-state data  will be stored, for example:
 
-```
+```js
 import { combineReducers } from 'redux';
 import reduxInternal from 'redux-internal-state';
 import oneOfYourReducers from './oneOfYourReducers';
@@ -73,7 +73,7 @@ export default combineReducers({
 Now let's say that you want to create a component that manages its "internal state".
 First define the actions that will trigger state changes:
 
-```
+```js
 // This file would be located somewhere like: src/components/tabs-component/actions.js
 
 export const TAB_SELECTED = 'TAB_SELECTED';
@@ -84,7 +84,7 @@ export actionCreators = {
 ```
 
 Now let's make a simple reducer for the "internal state" of our component:
-```
+```js
 // This file would be located somewhere like: src/components/tabs-component/reducer.js
 
 import { TAB_SELECTED } from './actions';
@@ -100,7 +100,7 @@ Next, lets say that you have a tabs component and that you need to receive
 through props the dispatcher function that will be called when a new tab is
 selected and the current state of your tabs component. You could do this:
 
-```
+```js
 // This file would be located somewhere like: src/components/tabs-component/index.js
 
 import React from 'react';
@@ -144,7 +144,7 @@ export default connect(
 And finally, when you instantiate your `Tabs` you have to pass an `instanceId`
 property to them, like this:
 
-```
+```js
 <Tabs instanceId="myTabs">
 // ... The rest of the code here
 </Tabs>
